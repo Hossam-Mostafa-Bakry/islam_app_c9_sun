@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:islami_app_c9_sun/moduls/hadeth/hadeth_view.dart';
+import 'package:provider/provider.dart';
+
+import '../../core/provider/app_provider.dart';
 
 class HadethDetails extends StatelessWidget {
   static const String routeName = "hadethdetails";
@@ -11,11 +14,12 @@ class HadethDetails extends StatelessWidget {
     var args = ModalRoute.of(context)?.settings.arguments as HadethData;
     var mediaQuery = MediaQuery.of(context).size;
     var theme = Theme.of(context);
+    var vm = Provider.of<AppProvider>(context);
 
     return Container(
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         image: DecorationImage(
-          image: AssetImage("assets/images/background_light.png"),
+          image: AssetImage(vm.getBackgroundImage()),
           fit: BoxFit.cover,
         ),
       ),
@@ -29,24 +33,35 @@ class HadethDetails extends StatelessWidget {
           width: mediaQuery.width,
           height: mediaQuery.height,
           decoration: BoxDecoration(
-            color: Color(0xFFF8F8F8).withOpacity(0.8),
+            color: theme.colorScheme.onBackground,
             borderRadius: BorderRadius.circular(25),
           ),
           child: Column(
             children: [
               Text(
                 args.title,
-                style: theme.textTheme.bodyLarge,
+                style: theme.textTheme.bodyLarge!.copyWith(
+                  color: theme.colorScheme.onSecondary,
+                ),
               ),
               Divider(
-                color: theme.primaryColor,
                 endIndent: 30,
                 indent: 30,
                 thickness: 1.2,
                 height: 10,
               ),
-              Text(args.content,
-                  textAlign: TextAlign.center, style: theme.textTheme.bodySmall)
+              Expanded(
+                child: ListView(
+                  children: [
+                    Text(
+                      args.content,
+                      textAlign: TextAlign.center,
+                      style: theme.textTheme.bodySmall!.copyWith(
+                          color: theme.colorScheme.onSecondary, height: 1.8),
+                    ),
+                  ],
+                ),
+              )
             ],
           ),
         ),

@@ -2,16 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:islami_app_c9_sun/moduls/hadeth/hadeth_details.dart';
 
-class HadethView extends StatelessWidget {
+class HadethView extends StatefulWidget {
   HadethView({super.key});
 
+  @override
+  State<HadethView> createState() => _HadethViewState();
+}
+
+class _HadethViewState extends State<HadethView> {
   List<HadethData> allHadethData = [];
 
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
 
-    readFile();
+    if (allHadethData.isEmpty) readFile();
     return Column(
       children: [
         Image.asset("assets/images/hadeth_header.png"),
@@ -20,7 +25,6 @@ class HadethView extends StatelessWidget {
           indent: 10,
           endIndent: 10,
           height: 5,
-          color: theme.primaryColor,
         ),
         Text(
           "الأحاديث",
@@ -31,7 +35,6 @@ class HadethView extends StatelessWidget {
           indent: 10,
           endIndent: 10,
           height: 5,
-          color: theme.primaryColor,
         ),
         Expanded(
           child: ListView.separated(
@@ -47,7 +50,6 @@ class HadethView extends StatelessWidget {
               ),
             ),
             separatorBuilder: (context, index) => Divider(
-              color: theme.primaryColor,
               height: 10,
               endIndent: 60,
               indent: 60,
@@ -80,6 +82,7 @@ class HadethView extends StatelessWidget {
       HadethData hadethData = HadethData(title: title, content: content);
       allHadethData.add(hadethData);
 
+      setState(() {});
       print(title);
     }
   }
